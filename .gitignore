@@ -1,0 +1,12 @@
+# dependencies
+node_modules
+
+# bundle
+dist
+
+# ide
+.idea
+.vscode
+
+# test
+coverage
