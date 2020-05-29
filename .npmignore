@@ -11,3 +11,11 @@ coverage
 
 # dependencies
 node_modules
+
+
+# misc
+tsconfig.json
+.prettierrc.js
+.eslintrc.js
+.editorconfig
+.eslintignore
