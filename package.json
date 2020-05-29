@@ -1,6 +1,6 @@
 {
   "name": "include-template-loader",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Handle the conflict between html webpack plugin and html loader",
   "main": "index.js",
   "scripts": {
