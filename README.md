@@ -52,4 +52,5 @@ sub
 ### Options
 
 **_sign_**: template parsing mark, default `['{{', '}}']`
+
 **_deep_**: the depth of recursive analysis, default 5, value range 0-5
