@@ -1,5 +1,5 @@
 {
-  "name": "include-html-loader",
+  "name": "include-template-loader",
   "version": "1.0.0",
   "description": "Handle the conflict between html webpack plugin and html loader",
   "main": "index.js",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xhuz/include-html-loader.git"
+    "url": "git+https://github.com/xhuz/include-template-loader.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xhuz/include-html-loader/issues"
+    "url": "https://github.com/xhuz/include-template-loader/issues"
   },
-  "homepage": "https://github.com/xhuz/include-html-loader#readme",
+  "homepage": "https://github.com/xhuz/include-template-loader#readme",
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/loader-utils": "^1.1.3",

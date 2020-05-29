@@ -1,6 +1,10 @@
-# include-html-loader
+# include-template-loader
 
 Handle the conflict between html webpack plugin and html loader
+
+### Install
+
+`npm install include-template-loader -D`
 
 ### Usage
 
@@ -10,7 +14,7 @@ Handle the conflict between html webpack plugin and html loader
       test: /\.html/,
       use: [
         'html-loader',
-        'include-loader'
+        'include-template-loader'
       ]
     }
   ...
@@ -34,7 +38,7 @@ sub
       use: [
         'html-loader',
         {
-          loader: 'include-loader',
+          loader: 'include-template-loader',
           options: {
             sign: ['{{', '}}'],
             deep: 5
