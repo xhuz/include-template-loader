@@ -1,4 +1,4 @@
-import {validateOptions, mergeOptions} from '../src/utils/options-util';
+import {validateOptions, mergeOptions} from '../src/utils/options.util';
 import * as loaderUtils from 'loader-utils';
 import {Options} from '../src/interface';
 

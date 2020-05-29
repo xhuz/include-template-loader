@@ -12,7 +12,7 @@ const getRules = (sign: Sign): TemplateRules => {
   const [start, end] = sign;
   return {
     include: new RegExp(
-      `${start}\\s*@include\\(\\s*['"](.*)['"](?:,\\s*('{(?:\\S|\\s)*?}))?\\s*\\)?\\s*${end}`,
+      `${start}\\s*@include\\(\\s*['"](.*)['"](?:,\\s*({(?:\\S|\\s)*?}))?\\s*\\)?\\s*${end}`,
       'g'
     ),
     variable: new RegExp(`${start}\\s*(?!@include)(.*?)\\s*${end}`, 'g')

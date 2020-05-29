@@ -1,8 +1,26 @@
 import {templateParser} from '../src/utils/template-parser.util';
 import {Options} from '../src/interface';
+import * as loaderUtils from 'loader-utils';
+import {readFileSync} from 'fs';
+import {resolve} from 'path';
+
 jest.mock('loader-utils');
 
-const source = `<!DOCTYPE html>
+const basePath = resolve(__dirname, '__mock__/index.html');
+const basePath1 = resolve(__dirname, '__mock__/invalid-params.html');
+const basePath2 = resolve(__dirname, '__mock__/nested.html');
+
+const options: Options = {
+  sign: ['{{', '}}'],
+  deep: 3
+};
+
+const self = {
+  addDependency: jest.fn()
+};
+
+// can not change indent
+const result = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,36 +28,68 @@ const source = `<!DOCTYPE html>
     <title>Document</title>
   </head>
   <body>
-    {{@include('../components/header.html', {"name": "123"})}}
+    <!-- prettier-ignore -->
+    <header>I am a header components, my name is test template transfer params header </header>
 
-    <img src="../assets/images/1.png" alt="" />
-    <nav>
-      <a href="page-a/index.html">page-a</a>
-      <a href="page-a/sub-page-a/index.html">page-a/sub-page-a</a>
-      <a href="page-a/sub-page-a/sub-sub-page-a/index.html">
-        page-a/sub-page-a/sub-sub-page-a
-      </a>
-      <a href="page-b/index.html">page-b</a>
-      <a href="page-c/index.html">page-c</a>
-    </nav>
+    <div>I am main page</div>
+    <!-- prettier-ignore -->
+    <footer>I am a footer components, my name is test template transfer params footer</footer>
 
-    {{@include('../components/footer.html', {"name": 123})}}
+    <div>I am a components without params</div>
+
   </body>
-</html>`;
+</html>
+`;
 
-const options: Options = {
-  sign: ['{{', '}}'],
-  deep: 3
-};
+// can not change indent
+const result1 = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>I am a nested component</div>
+    <div>
+  <span>I am a sub component</span>
+  <div><div>I am a sub-sub component</div>
+</div>
+</div>
+
+  </body>
+</html>
+`;
 
 describe('template parser util', () => {
+  const getCurrentRequestSpy = jest.spyOn(loaderUtils, 'getCurrentRequest');
+  beforeEach(() => {
+    getCurrentRequestSpy.mockClear();
+  });
   it('to be defined', () => {
     expect(templateParser).toBeDefined();
   });
 
   describe('templateParser', () => {
-    it('should return [string, Set<string>]', () => {
-      templateParser({} as any, source, options);
+    it('should correctly executed', () => {
+      const source = readFileSync(basePath, 'utf8');
+      getCurrentRequestSpy.mockReturnValue(basePath);
+      expect(templateParser(self as any, source, options)).toBe(result);
+
+      expect(getCurrentRequestSpy).toBeCalled();
+      expect(self.addDependency).toBeCalled();
+    });
+
+    it('should correctly executed, nested components', () => {
+      const source = readFileSync(basePath2, 'utf8');
+      getCurrentRequestSpy.mockReturnValue(basePath2);
+      expect(templateParser(self as any, source, options)).toBe(result1);
+    });
+
+    it('should throw a error', () => {
+      const source = readFileSync(basePath1, 'utf8');
+      getCurrentRequestSpy.mockReturnValue(basePath1);
+      expect(() => templateParser(self as any, source, options)).toThrow();
     });
   });
 });

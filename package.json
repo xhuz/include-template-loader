@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "tsc",
     "test": "jest",
+    "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js --runInBand",
     "coverage": "jest --coverage"
   },
   "repository": {
