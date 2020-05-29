@@ -3,7 +3,7 @@ import {Options} from './interface';
 import {validateOptions, mergeOptions} from './utils/options.util';
 import {templateParser} from './utils/template-parser.util';
 
-export function includeHtmlLoader(
+export default function includeHtmlLoader(
   this: webpack.loader.LoaderContext,
   source: string
 ) {

@@ -1,4 +1,4 @@
-import {includeHtmlLoader} from '../src';
+import includeHtmlLoader from '../src';
 import {readFileSync} from 'fs';
 import {resolve} from 'path';
 
