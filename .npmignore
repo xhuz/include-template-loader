@@ -3,3 +3,8 @@ src
 
 # test
 test
+coverage
+
+# ide
+.vscode
+.idea
