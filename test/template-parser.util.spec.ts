@@ -2,7 +2,7 @@ import {templateParser} from '../src/utils/template-parser.util';
 import {Options} from '../src/interface';
 import * as loaderUtils from 'loader-utils';
 import {readFileSync} from 'fs';
-import {resolve} from 'path';
+import {resolve, join} from 'path';
 
 jest.mock('loader-utils');
 
@@ -36,6 +36,8 @@ const result = `<!DOCTYPE html>
     <footer>I am a footer components, my name is test template transfer params footer</footer>
 
     <div>I am a components without params</div>
+
+    <img src="${join(__dirname, `__mock__`, '../../test/img')}" alt="" />
 
   </body>
 </html>
@@ -74,7 +76,12 @@ describe('template parser util', () => {
     it('should correctly executed', () => {
       const source = readFileSync(basePath, 'utf8');
       getCurrentRequestSpy.mockReturnValue(basePath);
-      expect(templateParser(self as any, source, options)).toBe(result);
+      expect(
+        templateParser(self as any, source, options).replace(
+          /(\r\n|\r|\n)/g,
+          ''
+        )
+      ).toBe(result.replace(/\n/g, ''));
 
       expect(getCurrentRequestSpy).toBeCalled();
       expect(self.addDependency).toBeCalled();
@@ -83,7 +90,12 @@ describe('template parser util', () => {
     it('should correctly executed, nested components', () => {
       const source = readFileSync(basePath2, 'utf8');
       getCurrentRequestSpy.mockReturnValue(basePath2);
-      expect(templateParser(self as any, source, options)).toBe(result1);
+      expect(
+        templateParser(self as any, source, options).replace(
+          /(\r\n|\r|\n)/g,
+          ''
+        )
+      ).toBe(result1.replace(/\n/g, ''));
     });
 
     it('should throw a error', () => {

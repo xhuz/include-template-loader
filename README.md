@@ -2,6 +2,10 @@
 
 Handle the conflict between html webpack plugin and html loader
 
+### Upload
+
+[1.1.2] Fix the image path of the included template to be an absolute path based on the current template path
+
 ### Install
 
 `npm install include-template-loader -D`

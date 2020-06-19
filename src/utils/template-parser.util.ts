@@ -15,7 +15,8 @@ const getRules = (sign: Sign): TemplateRules => {
       `${start}\\s*@include\\(\\s*['"](.*)['"](?:,\\s*({(?:\\S|\\s)*?}))?\\s*\\)?\\s*${end}`,
       'g'
     ),
-    variable: new RegExp(`${start}\\s*(?!@include)(.*?)\\s*${end}`, 'g')
+    variable: new RegExp(`${start}\\s*(?!@include)(.*?)\\s*${end}`, 'g'),
+    imgSrc: /(?<=<img.*?src=["']).*?(?=["'].*?\/?>)/gi
   };
 };
 
@@ -41,7 +42,7 @@ const templateReplace = (
     rules: TemplateRules,
     deep: number
   ): string => {
-    const {include, variable} = rules;
+    const {include, variable, imgSrc} = rules;
 
     const handle = (_match: string, $1: string, $2 = '{}') => {
       let templateParams: {[key: string]: any};
@@ -52,10 +53,15 @@ const templateReplace = (
       }
       const {dir} = parse(templatePath);
       const templateUrl = resolve(dir, $1);
+      const {dir: templateBasePath} = parse(templateUrl);
 
       dependenciesUrl.add(templateUrl);
 
       let templateContent = readFileSync(templateUrl, 'utf8');
+
+      templateContent = templateContent.replace(imgSrc, match =>
+        resolve(templateBasePath, match)
+      );
 
       templateContent = templateContent.replace(
         variable,

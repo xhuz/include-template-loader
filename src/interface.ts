@@ -8,4 +8,5 @@ export interface TemplateRules {
   [key: string]: RegExp;
   include: RegExp;
   variable: RegExp;
+  imgSrc: RegExp;
 }
