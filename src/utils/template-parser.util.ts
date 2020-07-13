@@ -1,6 +1,6 @@
 import {Options, Sign, TemplateRules} from '../interface';
 import {loader} from 'webpack';
-import {parse, resolve} from 'path';
+import {parse, resolve, relative} from 'path';
 import {readFileSync} from 'fs';
 import {getCurrentRequest} from 'loader-utils';
 
@@ -60,7 +60,7 @@ const templateReplace = (
       let templateContent = readFileSync(templateUrl, 'utf8');
 
       templateContent = templateContent.replace(imgSrc, match =>
-        resolve(templateBasePath, match)
+        relative(dir, resolve(templateBasePath, match))
       );
 
       templateContent = templateContent.replace(
